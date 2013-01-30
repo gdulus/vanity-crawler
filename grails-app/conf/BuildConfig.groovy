@@ -61,3 +61,6 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
     }
 }
+
+grails.plugin.location.'vanity-core' = '../vanity-core'
+
