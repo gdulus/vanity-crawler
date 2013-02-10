@@ -30,6 +30,7 @@ grails.project.dependency.resolution = {
 
     dependencies {
         compile 'edu.uci.ics:crawler4j:3.4'
+        compile 'org.jsoup:jsoup:0.2.2'
     }
 
     plugins {
@@ -37,10 +38,9 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.8.3"
         runtime ":resources:1.1.6"
         runtime ":database-migration:1.2.1"
-
         build ":tomcat:$grailsVersion"
-
         compile ':cache:1.0.1'
+        compile ":quartz:1.0-RC5"
     }
 }
 
