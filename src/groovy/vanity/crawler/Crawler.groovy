@@ -2,9 +2,17 @@ package vanity.crawler
 
 import edu.uci.ics.crawler4j.crawler.Page
 import edu.uci.ics.crawler4j.crawler.WebCrawler
+import edu.uci.ics.crawler4j.parser.HtmlParseData
 import edu.uci.ics.crawler4j.url.WebURL
+import groovy.util.logging.Log4j
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import vanity.ContentSource
+import vanity.crawler.result.CrawledPage
+import vanity.crawler.result.PageContent
+import vanity.crawler.result.PageMeta
 
+@Log4j
 abstract class Crawler extends WebCrawler {
 
     protected final ContentSource contentSource
@@ -21,15 +29,29 @@ abstract class Crawler extends WebCrawler {
 
     protected abstract boolean shouldVisit(String url)
 
-    /**
-     * This function is called when a page is fetched and ready
-     * to be processed by your program.
-     */
     @Override
     public final void visit(Page page) {
-        parse(page)
+        String url = page.getWebURL().getURL();
+        log.info("Start parsing [${url}]")
+
+        HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+        Document doc = Jsoup.parse(htmlParseData.html)
+        PageMeta meta = new PageMeta(url, getTags(doc))
+        PageContent content = new PageContent(getTitle(doc), getBody(doc))
+        CrawledPage crawledPage = new CrawledPage(meta, content)
+
+        if (!crawledPage.validate()){
+            log.warn("For [${url}] we have an errors")
+            return
+        }
+
+        log.info("Page [${url}] parsed successfuly")
     }
 
-    protected abstract void parse(final Page page)
+    protected abstract String getTitle(Document doc)
+
+    protected abstract String getBody(Document doc)
+
+    protected abstract Set<String> getTags(Document doc)
 
 }
