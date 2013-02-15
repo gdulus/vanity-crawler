@@ -1,10 +1,10 @@
-package vanity.crawler
+package vanity.crawler.spider
 
 import vanity.ContentSource
 
 import javax.annotation.PostConstruct
 
-final class CrawlerFactory {
+class CrawlerFactory {
 
     private final Map<ContentSource, Class<? extends Crawler>> CACHE = [:]
 

@@ -91,3 +91,8 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+crawler.crawlStorageBaseFolder = '/home/gdulus/Downloads/vanity'
+crawler.numberOfCrawlers = 5
+containers.standard.concurrentConsumers = 10
+

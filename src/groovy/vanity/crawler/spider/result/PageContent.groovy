@@ -1,9 +1,11 @@
-package vanity.crawler.result
+package vanity.crawler.spider.result
 
 import grails.validation.Validateable
 
 @Validateable
-class PageContent {
+class PageContent implements Serializable {
+
+    private static final long serialVersionUID = 4357531758444392057L
 
     final String title
 

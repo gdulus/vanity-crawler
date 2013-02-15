@@ -1,4 +1,4 @@
-package vanity.crawler
+package vanity.crawler.spider
 
 import org.quartz.JobExecutionContext
 import vanity.ContentSource

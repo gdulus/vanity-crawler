@@ -1,6 +1,8 @@
-package vanity.crawler.result
+package vanity.crawler.spider.result
 
-final class CrawledPage {
+final class CrawledPage implements Serializable {
+
+    private static final long serialVersionUID = - 7712634726924094391L
 
     final PageMeta meta
 
@@ -21,5 +23,9 @@ final class CrawledPage {
 
     public boolean validate(){
         return (meta && content && meta.validate() && content.validate())
+    }
+
+    public String getErrors(){
+        return "[${meta.errors}] AND [${content.errors}]"
     }
 }

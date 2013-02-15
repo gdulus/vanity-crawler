@@ -1,6 +1,8 @@
 package vanity.crawler
 
 import vanity.ContentSource
+import vanity.crawler.spider.CrawlerJob
+import vanity.crawler.spider.CrawlerJobConfiguratior
 
 class ManageController {
 
