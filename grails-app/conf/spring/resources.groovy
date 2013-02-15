@@ -17,7 +17,6 @@ beans = {
     /**
      * JMS wiring
      */
-
     mesageBus(MessageBus){bean ->
         bean.constructorArgs = [ref('jmsService')]
     }
