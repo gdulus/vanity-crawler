@@ -39,7 +39,7 @@ abstract class Crawler extends WebCrawler {
         String url = page.getWebURL().getURL();
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
-        PageMeta meta = new PageMeta(url, getTags(doc), getDate(doc))
+        PageMeta meta = new PageMeta(contentSource, url, getTags(doc), getDate(doc))
         PageContent content = new PageContent(getTitle(doc), getBody(doc))
         CrawledPage crawledPage = new CrawledPage(meta, content)
 

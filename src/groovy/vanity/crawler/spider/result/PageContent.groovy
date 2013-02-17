@@ -11,14 +11,14 @@ class PageContent implements Serializable {
 
     final String body
 
-    static constraints = {
-        title(nullable: false, blank:false)
-        body(nullable: false, blank:false)
-    }
-
     PageContent(String title, String body) {
         this.title = title
         this.body = body
+    }
+
+    static constraints = {
+        title(nullable: false, blank:false)
+        body(nullable: false, blank:false)
     }
 
     @Override

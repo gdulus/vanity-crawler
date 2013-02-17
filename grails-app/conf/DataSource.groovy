@@ -1,43 +1,31 @@
-dataSource {
-    pooled = true
-    driverClassName = "org.h2.Driver"
-    username = "sa"
-    password = ""
-}
-hibernate {
-    cache.use_second_level_cache = true
-    cache.use_query_cache = false
-    cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory'
-}
-// environment specific settings
-environments {
+grails {
     development {
-        dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+        mongo {
+            host = db.development.mongodb.host
+            port = db.development.mongodb.port
+            databaseName = db.development.mongodb.databaseName
+            username = db.development.mongodb.login
+            password = db.development.mongodb.password
         }
     }
+
     test {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+        mongo {
+            host = db.test.mongodb.host
+            port = db.test.mongodb.port
+            databaseName = db.test.mongodb.databaseName
+            username = db.test.mongodb.login
+            password = db.test.mongodb.password
         }
     }
+
     production {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-            pooled = true
-            properties {
-               maxActive = -1
-               minEvictableIdleTimeMillis=1800000
-               timeBetweenEvictionRunsMillis=1800000
-               numTestsPerEvictionRun=3
-               testOnBorrow=true
-               testWhileIdle=true
-               testOnReturn=true
-               validationQuery="SELECT 1"
-            }
+        mongo {
+            host = db.production.mongodb.host
+            port = db.production.mongodb.port
+            databaseName = db.production.mongodb.databaseName
+            username = db.production.mongodb.login
+            password = db.production.mongodb.password
         }
     }
 }

@@ -19,11 +19,9 @@ grails.project.dependency.resolution = {
 
     repositories {
         inherits true    // Whether to inherit repository definitions from plugins
-
         grailsPlugins()
         grailsHome()
         grailsCentral()
-
         mavenLocal()
         mavenCentral()
     }
@@ -36,7 +34,6 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.3"
         runtime ":resources:1.1.6"
         runtime ":database-migration:1.2.1"
@@ -44,6 +41,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
         compile ":quartz:1.0-RC5"
         compile ":jms:1.2"
+        compile ":mongodb:1.1.0.GA"
     }
 }
 

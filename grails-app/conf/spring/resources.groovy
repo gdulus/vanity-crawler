@@ -29,7 +29,7 @@ beans = {
         // persistence config - Kahadb
         persistent = true
         def kahaDBPersistenceAdapter =  new KahaDBPersistenceAdapter()
-        kahaDBPersistenceAdapter.directory = new File('/home/gdulus/Downloads/activemq-data')
+        kahaDBPersistenceAdapter.directory = new File(application.config.jms.storage.location)
         persistenceAdapter = kahaDBPersistenceAdapter
         // enable producer flow control
         def policyMap = new PolicyMap();
