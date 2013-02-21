@@ -1,3 +1,4 @@
+<%@ page import="vanity.crawler.spider.CrawlerExecutor" %>
 <html>
 <head>
     <title></title>
@@ -32,11 +33,16 @@
                     <g:message code="${crawler.source.name()}" />
                 </td>
                 <td class="text-right">
-                    <g:if test="${crawler.isRunning}">
+                    <g:if test="${crawler.status == CrawlerExecutor.Status.WORKING}">
                         <g:link action="stopJob" params="${[source:crawler.source]}" class="btn btn-danger btn-small">
                             <g:message code="crawler.stop" />
                         </g:link>
                     </g:if>
+                    <g:elseif test="${crawler.status == CrawlerExecutor.Status.STOPPING}">
+                        <button class="btn btn-warning btn-small" disabled="disabled">
+                            <g:message code="crawler.stopping" />
+                        </button>
+                    </g:elseif>
                     <g:else>
                         <g:link action="startJob" params="${[source:crawler.source]}" class="btn btn-success btn-small">
                             <g:message code="crawler.start" />

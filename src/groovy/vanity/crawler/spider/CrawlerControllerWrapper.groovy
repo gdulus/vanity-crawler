@@ -41,6 +41,10 @@ final class CrawlerControllerWrapper {
         controller.Shutdown()
     }
 
+    public boolean isStopping(){
+        controller && controller.isShuttingDown()
+    }
+
     @Override
     boolean equals(o) {
         if (this.is(o)){
@@ -59,4 +63,5 @@ final class CrawlerControllerWrapper {
     int hashCode() {
         return sourceAddress.hashCode()
     }
+
 }

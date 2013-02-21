@@ -9,7 +9,7 @@ class ManageController {
     def index() {
         // prepare model data - collect all crawlers and it states
         def crawlers = ContentSource.values().collect {
-            [source:it, isRunning:crawlerExecutor.isCurrentlyCrawling(it)]
+            [source:it, status:crawlerExecutor.getStatus(it)]
         }
         // return model
         [crawlers:crawlers]

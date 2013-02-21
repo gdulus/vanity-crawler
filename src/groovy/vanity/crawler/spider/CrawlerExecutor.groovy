@@ -20,8 +20,26 @@ class CrawlerExecutor {
     @Lazy
     private int numberOfCrawlers = grailsApplication.config.crawler.numberOfCrawlers
 
+    public Status getStatus(final ContentSource source){
+        if (!cache.isRegistered(source)){
+            return Status.STOPPED
+        }
+
+        CrawlerControllerWrapper controllerWrapper = cache.get(source)
+
+        if (!controllerWrapper){
+            return Status.STOPPED
+        }
+
+        if (controllerWrapper.isStopping()){
+            return Status.STOPPING
+        }
+
+        return Status.WORKING
+    }
+
     public boolean isCurrentlyCrawling(final ContentSource source){
-        return cache.isRegistered(source)
+        return getStatus(source) == Status.WORKING
 
     }
 
@@ -37,7 +55,6 @@ class CrawlerExecutor {
         }
 
         controllerWrapper.stop()
-        return cache.unRegister(source, controllerWrapper)
     }
 
     public boolean startFor(final ContentSource source){
@@ -86,6 +103,12 @@ class CrawlerExecutor {
             return RUN_INDICATOR.get(source)
         }
 
+    }
+
+    public enum Status {
+        STOPPED,
+        STOPPING,
+        WORKING,
     }
 
 }
