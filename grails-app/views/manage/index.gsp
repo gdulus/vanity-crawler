@@ -2,6 +2,7 @@
 <head>
     <title></title>
     <meta name="layout" content="crawler"/>
+    <r:require module="manage"/>
 </head>
 <body>
     <table class="table table-striped">
@@ -12,7 +13,7 @@
             <th>
                 <g:message code="crawler.source.name" />
             </th>
-            <th>
+            <th style="width: 100px;">
 
             </th>
         </tr>
@@ -22,18 +23,25 @@
             </div>
         </g:if>
 
-        <g:each in="${sources}" var="source" status="i">
+        <g:each in="${crawlers}" var="crawler" status="i">
             <tr>
                 <td>
                     <%= i + 1 %>
                 </td>
                 <td>
-                    <g:message code="${source.name()}" />
+                    <g:message code="${crawler.source.name()}" />
                 </td>
-                <td>
-                    <g:link action="startJob" params="${[source:sources]}" class="btn btn-success">
-                        <g:message code="crawler.start" />
-                    </g:link>
+                <td class="text-right">
+                    <g:if test="${crawler.isRunning}">
+                        <g:link action="stopJob" params="${[source:crawler.source]}" class="btn btn-danger btn-small">
+                            <g:message code="crawler.stop" />
+                        </g:link>
+                    </g:if>
+                    <g:else>
+                        <g:link action="startJob" params="${[source:crawler.source]}" class="btn btn-success btn-small">
+                            <g:message code="crawler.start" />
+                        </g:link>
+                    </g:else>
                 </td>
             </tr>
         </g:each>

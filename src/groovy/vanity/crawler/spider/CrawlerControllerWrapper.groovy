@@ -37,6 +37,10 @@ final class CrawlerControllerWrapper {
         controller.start(crawler, numberOfCrawlers)
     }
 
+    public void stop(){
+        controller.Shutdown()
+    }
+
     @Override
     boolean equals(o) {
         if (this.is(o)){

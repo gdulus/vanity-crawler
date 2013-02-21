@@ -22,6 +22,22 @@ class CrawlerExecutor {
 
     public boolean isCurrentlyCrawling(final ContentSource source){
         return cache.isRegistered(source)
+
+    }
+
+    public boolean stop(final ContentSource source){
+        if (!cache.isRegistered(source)){
+            return true
+        }
+
+        CrawlerControllerWrapper controllerWrapper = cache.get(source)
+
+        if (!controllerWrapper){
+            return true
+        }
+
+        controllerWrapper.stop()
+        return cache.unRegister(source, controllerWrapper)
     }
 
     public boolean startFor(final ContentSource source){
@@ -40,7 +56,7 @@ class CrawlerExecutor {
             Class<? extends Crawler> crawler = crawlerFactory.produce(source)
             controllerWrapper.start(crawler, numberOfCrawlers)
         } finally {
-            cache.unregister(source, controllerWrapper)
+            cache.unRegister(source, controllerWrapper)
         }
         // crawling finished, indicate success
         return true
@@ -62,8 +78,12 @@ class CrawlerExecutor {
             return RUN_INDICATOR.putIfAbsent(source, controllerWrapper) == null
         }
 
-        public boolean unregister(final ContentSource source, final CrawlerControllerWrapper controllerWrapper){
+        public boolean unRegister(final ContentSource source, final CrawlerControllerWrapper controllerWrapper){
             return RUN_INDICATOR.remove(source, controllerWrapper)
+        }
+
+        public CrawlerControllerWrapper get(final ContentSource source){
+            return RUN_INDICATOR.get(source)
         }
 
     }
