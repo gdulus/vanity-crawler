@@ -1,6 +1,15 @@
-// locations to search for config files that get merged into the main config;
-grails.config.locations = [ "file:${userHome}/.grails/vanity-crawler-config.properties"]
+import vanity.utils.ConfigUtils
 
+/**
+ * set up all external config file
+ */
+ConfigUtils.instance.externalConfig(grails, userHome) {
+    file 'crawler-config.properties'
+}
+
+/**
+ * Basic setup
+ */
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
