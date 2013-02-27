@@ -48,7 +48,6 @@ abstract class Crawler extends WebCrawler {
             return
         }
 
-
         log.info("Page [${url}] parsed successfuly")
         messageBus.sendToProcessor(crawledPage)
     }
