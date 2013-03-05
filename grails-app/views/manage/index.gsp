@@ -6,6 +6,12 @@
     <r:require module="manage"/>
 </head>
 <body>
+    <g:if test="${flash}" >
+        <div class="alert alert-success">
+            <g:message code="${flash.message}" />
+        </div>
+    </g:if>
+
     <table class="table table-striped">
         <tr>
             <th>
@@ -18,12 +24,6 @@
 
             </th>
         </tr>
-        <g:if test="${flash}" >
-            <div class="alert alert-success">
-                <g:message code="${flash.message}" />
-            </div>
-        </g:if>
-
         <g:each in="${crawlers}" var="crawler" status="i">
             <tr>
                 <td>
