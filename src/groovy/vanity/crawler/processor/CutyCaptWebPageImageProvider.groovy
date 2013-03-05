@@ -2,7 +2,7 @@ package vanity.crawler.processor
 
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
-class WkhtmlToImageWebPageImageProvider implements WebPageImageProvider {
+class CutyCaptWebPageImageProvider implements WebPageImageProvider {
 
     private static final String FILE_FORMAT = 'jpg'
 

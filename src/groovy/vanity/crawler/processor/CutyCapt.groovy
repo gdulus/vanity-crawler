@@ -2,29 +2,32 @@ package vanity.crawler.processor
 
 import groovy.transform.PackageScope
 
+/**
+ * sudo apt-get install cutycapt
+ * http://cutycapt.sourceforge.net/
+ */
 @PackageScope
 class CutyCapt {
 
     private static final String EXECUTABLE = 'cutycapt'
 
-    private String params = ""
+    private Params params = new Params()
 
     private String target
 
-    private String source
-
     CutyCapt(final String source, final String target) {
-        this.source = source
         this.target = target
+        this.params.set('url', source)
+        this.params.set('out', target)
     }
 
     public void setNoJavaScript(){
-        params = "--javascript=off"
+        params.set('javascript', 'off')
     }
 
     public File execute(){
         // execute process
-        String command = "${EXECUTABLE} ${params} --url=${source} --out=${target}"
+        String command = "${EXECUTABLE} ${params.serialize()}"
         Process process = command.execute()
         // evaluate if process returned valid status
         if(process.waitFor() != 0){
@@ -38,5 +41,23 @@ class CutyCapt {
         }
 
         return file
+    }
+
+    private static class Params {
+
+        private Map<String, String> params = [:]
+
+        public void set(final String param, final String value){
+            params[param] = value
+        }
+
+        public String serialize(){
+            return params.inject(''){result, it -> "${result} --${it.key}=${it.value}"}
+        }
+
+        @Override
+        public String toString() {
+            return serialize()
+        }
     }
 }

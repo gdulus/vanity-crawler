@@ -2,7 +2,7 @@ import org.apache.activemq.broker.region.policy.PolicyEntry
 import org.apache.activemq.broker.region.policy.PolicyMap
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter
 import vanity.crawler.jms.MessageBus
-import vanity.crawler.processor.WkhtmlToImageWebPageImageProvider
+import vanity.crawler.processor.CutyCaptWebPageImageProvider
 import vanity.crawler.spider.CrawlerExecutor
 import vanity.crawler.spider.CrawlerFactory
 
@@ -12,7 +12,7 @@ beans = {
     /**
      * Processing wiring
      */
-    webPageImageProvider(WkhtmlToImageWebPageImageProvider)
+    webPageImageProvider(CutyCaptWebPageImageProvider)
 
     /**
      * Crawler wiring
