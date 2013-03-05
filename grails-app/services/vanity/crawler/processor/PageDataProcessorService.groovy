@@ -18,7 +18,6 @@ class PageDataProcessorService {
 
     @Queue(name=MessageBus.Constants.TO_BE_PROCESSED_QUEUE)
     void processData(final CrawledPage crawledPage) {
-
         log.info("Processing data for page ${crawledPage}")
         // try to create article based on crawled page data
         Article article = articleService.create(crawledPage.meta.tags) { Article article ->
@@ -33,6 +32,6 @@ class PageDataProcessorService {
             log.error("Error while saving article: ${article.errors}")
         }
         // get image
-        webPageImageProvider.getImage(crawledPage.meta.url)
+        //webPageImageProvider.getImage(crawledPage.meta.url)
     }
 }

@@ -31,6 +31,7 @@ grails.project.dependency.resolution = {
         compile('org.jsoup:jsoup:1.7.2')
         compile('org.apache.activemq:activemq-pool:5.7.0')
         compile('org.apache.activemq:activemq-core:5.7.0'){ excludes 'slf4j-log4j12' }
+        compile('postgresql:postgresql:9.1-901.jdbc4')
     }
 
     plugins {
@@ -41,7 +42,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
         compile ":quartz:1.0-RC5"
         compile ":jms:1.2"
-        compile ":mongodb:1.1.0.GA"
+        compile ":hibernate:2.2.1"
     }
 }
 
