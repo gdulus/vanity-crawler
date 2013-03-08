@@ -47,4 +47,5 @@ grails.project.dependency.resolution = {
 }
 
 grails.plugin.location.'vanity-core' = '../vanity-core'
+grails.plugin.location.'vanity-search' = '../vanity-search'
 

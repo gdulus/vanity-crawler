@@ -7,7 +7,7 @@ import vanity.ContentSource
 @PackageScope
 class PudelekCrawler extends Crawler {
 
-    private static final String URL_REQUIRED_ELEMENT = 'artykul'
+    private static final String URL_REQUIRED_ELEMENT = '/artykul/'
 
     private static final String DATE_SELECTOR = 'span.time'
 
@@ -25,7 +25,8 @@ class PudelekCrawler extends Crawler {
 
     @Override
     protected boolean shouldVisit(String url) {
-        return url.contains(URL_REQUIRED_ELEMENT)
+        // to prevent /miko_ma_juz_nowego_faceta_przystojny/5/
+        return url.contains(URL_REQUIRED_ELEMENT) && !url.tokenize('/').last().isNumber()
     }
 
     @Override
