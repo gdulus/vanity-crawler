@@ -1,4 +1,4 @@
-package vanity.crawler.processor
+package vanity.crawler.processor.post.webImage
 
 import groovy.transform.PackageScope
 

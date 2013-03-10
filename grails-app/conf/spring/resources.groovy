@@ -2,7 +2,9 @@ import org.apache.activemq.broker.region.policy.PolicyEntry
 import org.apache.activemq.broker.region.policy.PolicyMap
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter
 import vanity.crawler.jms.MessageBus
-import vanity.crawler.processor.CutyCaptWebPageImageProvider
+import vanity.crawler.processor.post.PostProcessorChain
+import vanity.crawler.processor.post.indexer.IndexerPostProcessor
+import vanity.crawler.processor.post.webImage.CutyCaptWebPageImageProvider
 import vanity.crawler.spider.CrawlerExecutor
 import vanity.crawler.spider.CrawlerFactory
 
@@ -12,7 +14,18 @@ beans = {
     /**
      * Processing wiring
      */
+    postProcessorChain(PostProcessorChain)
+
+    /**
+     * Indexing
+     */
+    indexerPostProcessor(IndexerPostProcessor)
+
+    /**
+     * Processing wiring
+     */
     webPageImageProvider(CutyCaptWebPageImageProvider)
+    // webImagePostProcessor(WebImagePostProcessor) For its switched off
 
     /**
      * Crawler wiring

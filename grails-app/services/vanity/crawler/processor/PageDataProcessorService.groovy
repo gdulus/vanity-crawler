@@ -1,13 +1,11 @@
 package vanity.crawler.processor
 
 import grails.plugin.jms.Queue
-import org.springframework.beans.factory.annotation.Autowired
 import vanity.article.Article
 import vanity.article.ArticleService
 import vanity.crawler.jms.MessageBus
+import vanity.crawler.processor.post.PostProcessorChain
 import vanity.crawler.spider.result.CrawledPage
-import vanity.search.ArticleDocument
-import vanity.search.SearchEngineIndexer
 
 class PageDataProcessorService {
 
@@ -17,8 +15,7 @@ class PageDataProcessorService {
 
     ArticleService articleService
 
-    @Autowired
-    SearchEngineIndexer searchEngineIndexer
+    PostProcessorChain processorChain
 
     @Queue(name=MessageBus.Constants.TO_BE_PROCESSED_QUEUE)
     void processData(final CrawledPage crawledPage) {
@@ -36,15 +33,7 @@ class PageDataProcessorService {
             log.error("Error while saving article: ${article.errors}")
             return
         }
-        // index article
-        ArticleDocument document = new ArticleDocument(
-            article.id,
-            article.title,
-            article.body,
-            article.source.toString(),
-            article.publicationDate,
-            article.tags.collect {it.name} as Set
-        )
-        searchEngineIndexer.indexArticle(document)
+        // execute all other actions on top of crawled article
+        processorChain.execute(article)
     }
 }
