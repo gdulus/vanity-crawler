@@ -15,7 +15,7 @@ class PageDataProcessorService {
 
     ArticleService articleService
 
-    PostProcessorChain processorChain
+    PostProcessorChain postProcessorChain
 
     @Queue(name=MessageBus.Constants.TO_BE_PROCESSED_QUEUE)
     void processData(final CrawledPage crawledPage) {
@@ -34,6 +34,6 @@ class PageDataProcessorService {
             return
         }
         // execute all other actions on top of crawled article
-        processorChain.execute(article)
+        postProcessorChain.execute(article)
     }
 }
