@@ -36,10 +36,11 @@ abstract class Crawler extends WebCrawler {
 
     @Override
     public final void visit(final Page page) {
-        String url = page.getWebURL().getURL();
+        String url = getGenericUrl(page.getWebURL().getURL());
+        String genericUrl = getGenericUrl(url);
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
-        PageMeta meta = new PageMeta(contentSource, url, getTags(doc), getDate(doc))
+        PageMeta meta = new PageMeta(getExternalId(url, doc), contentSource, genericUrl, getTags(doc), getDate(doc))
         PageContent content = new PageContent(getTitle(doc), getBody(doc))
         CrawledPage crawledPage = new CrawledPage(meta, content)
 
@@ -59,5 +60,9 @@ abstract class Crawler extends WebCrawler {
     protected abstract String getBody(Document doc)
 
     protected abstract Set<String> getTags(Document doc)
+
+    protected abstract String getExternalId(String url, Document doc)
+
+    protected abstract String getGenericUrl(String url)
 
 }

@@ -8,6 +8,8 @@ class PageMeta implements Serializable {
 
     private static final long serialVersionUID = - 5425084408155645285L ;
 
+    final String externalId
+
     final ContentSource source
 
     final String url
@@ -16,7 +18,8 @@ class PageMeta implements Serializable {
 
     final Date date
 
-    PageMeta(ContentSource source, String url, Set<String> tags, Date date) {
+    PageMeta(String externalId, ContentSource source, String url, Set<String> tags, Date date) {
+        this.externalId = externalId
         this.source = source
         this.url = url
         this.tags = tags ?: Collections.emptySet()
@@ -24,6 +27,7 @@ class PageMeta implements Serializable {
     }
 
     static constraints = {
+        externalId(nullable: false)
         source(nullable: false)
         url(nullable: false, blank:false, url: true)
         tags(minSize: 1)

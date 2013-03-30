@@ -22,6 +22,7 @@ class PageDataProcessorService {
         log.info("Processing data for page ${crawledPage}")
         // try to create article based on crawled page data
         Article article = articleService.create(crawledPage.meta.tags) { Article article ->
+            article.externalId = crawledPage.meta.externalId
             article.source = crawledPage.meta.source
             article.publicationDate = crawledPage.meta.date
             article.url = crawledPage.meta.url
@@ -30,7 +31,7 @@ class PageDataProcessorService {
         }
         // check if save was successful
         if (!article){
-            log.error("Error while saving article: ${article.errors}")
+            log.error("Error while saving article for crawled page ${crawledPage}")
             return
         }
         // execute all other actions on top of crawled article

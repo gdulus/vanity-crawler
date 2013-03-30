@@ -9,6 +9,8 @@ class PudelekCrawler extends Crawler {
 
     private static final String URL_REQUIRED_ELEMENT = '/artykul/'
 
+    private static final String EXT_VALUE_PATTERN = 'artykul/(\\d+)/'
+
     private static final String DATE_SELECTOR = 'span.time'
 
     private static final String DATE_FORMAT= 'dd.MM.yyyy'
@@ -48,5 +50,16 @@ class PudelekCrawler extends Crawler {
     @Override
     protected Set<String> getTags(final Document doc) {
         return doc.select(TAGS_SELECTOR)?.collect({it.text()}) as Set<String>
+    }
+
+    @Override
+    protected String getExternalId(final String url, final Document doc) {
+        def matcher = (url =~ EXT_VALUE_PATTERN)
+        return (matcher[0] && matcher[0].last()?.isNumber() ? matcher[0].last() : null)
+    }
+
+    @Override
+    protected String getGenericUrl(final String url) {
+        return url.tokenize('?').first()
     }
 }
