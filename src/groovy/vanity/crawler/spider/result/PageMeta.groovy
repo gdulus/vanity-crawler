@@ -1,7 +1,7 @@
 package vanity.crawler.spider.result
 
 import grails.validation.Validateable
-import vanity.ContentSource
+import vanity.article.ContentSource
 
 @Validateable
 class PageMeta implements Serializable {
@@ -10,7 +10,7 @@ class PageMeta implements Serializable {
 
     final String externalId
 
-    final ContentSource source
+    final ContentSource.Target contentSourceTarget
 
     final String url
 
@@ -18,9 +18,9 @@ class PageMeta implements Serializable {
 
     final Date date
 
-    PageMeta(String externalId, ContentSource source, String url, Set<String> tags, Date date) {
+    PageMeta(String externalId, ContentSource.Target contentSourceTarget, String url, Set<String> tags, Date date) {
         this.externalId = externalId
-        this.source = source
+        this.contentSourceTarget = contentSourceTarget
         this.url = url
         this.tags = tags ?: Collections.emptySet()
         this.date = date
@@ -28,7 +28,7 @@ class PageMeta implements Serializable {
 
     static constraints = {
         externalId(nullable: false)
-        source(nullable: false)
+        contentSourceTarget(nullable: false)
         url(nullable: false, blank:false, url: true)
         tags(minSize: 1)
         date(nullable: false)

@@ -1,9 +1,9 @@
 package vanity.crawler.spider
 
 import org.quartz.JobExecutionContext
-import vanity.ContentSource
+import vanity.article.ContentSource
 
-final class CrawlerJobConfiguratior {
+final class CrawlerJobConfiguration {
 
     private static final String TRIGGER_GROUP = 'VANITY_CRAWLER'
 
@@ -15,9 +15,9 @@ final class CrawlerJobConfiguratior {
 
     private static final String MANUAL_TRIGGER_KEY = 'source'
 
-    public static Map<String, ?> buildConfigFor(final ContentSource contentSource){
+    public static Map<String, ?> buildConfigFor(final ContentSource.Target contentSourceTarget){
         return [
-            name:contentSource.name(),
+            name:contentSourceTarget.name(),
             group:TRIGGER_GROUP,
             startDelay:DEFAULT_START_DELAY,
             repeatInterval: DEFAULT_REPEAT_INTERVAL,
@@ -25,11 +25,11 @@ final class CrawlerJobConfiguratior {
         ]
     }
 
-    public static Map<String, ContentSource> getTriggerNowParam(final ContentSource contentSource){
-        return [(MANUAL_TRIGGER_KEY):contentSource]
+    public static Map<String, ContentSource.Target> getTriggerNowParam(final ContentSource.Target contentSourceTarget){
+        return [(MANUAL_TRIGGER_KEY):contentSourceTarget]
     }
 
-    public static ContentSource getContentSource(final JobExecutionContext context){
+    public static ContentSource.Target getContentSource(final JobExecutionContext context){
         if (context.trigger.jobDataMap && context.trigger.jobDataMap.containsKey(MANUAL_TRIGGER_KEY)){
             return context.trigger.jobDataMap[MANUAL_TRIGGER_KEY]
         }

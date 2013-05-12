@@ -2,7 +2,7 @@ package vanity.crawler.spider
 
 import groovy.transform.PackageScope
 import org.jsoup.nodes.Document
-import vanity.ContentSource
+import vanity.article.ContentSource
 
 @PackageScope
 class PudelekCrawler extends Crawler {
@@ -22,7 +22,7 @@ class PudelekCrawler extends Crawler {
     private static final String TAGS_SELECTOR = '.inline-tags a'
 
     PudelekCrawler() {
-        super(ContentSource.PUDELEK)
+        super(ContentSource.Target.PUDELEK)
     }
 
     @Override

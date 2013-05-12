@@ -1,23 +1,23 @@
 package vanity.crawler.spider
 
-import vanity.ContentSource
+import vanity.article.ContentSource
 
 import javax.annotation.PostConstruct
 
 class CrawlerFactory {
 
-    private final Map<ContentSource, Class<? extends Crawler>> CACHE = [:]
+    private final Map<ContentSource.Target, Class<? extends Crawler>> CACHE = [:]
 
-    public Class<? extends Crawler> produce(final ContentSource contentSource){
-        if (!CACHE.containsKey(contentSource)){
-            throw new IllegalArgumentException("No crawler for source ${contentSource}")
+    public Class<? extends Crawler> produce(final ContentSource.Target contentSourceTarget){
+        if (!CACHE.containsKey(contentSourceTarget)){
+            throw new IllegalArgumentException("No crawler for source ${contentSourceTarget}")
         }
 
-        return CACHE[contentSource]
+        return CACHE[contentSourceTarget]
     }
 
     @PostConstruct
     public void init(){
-        CACHE[ContentSource.PUDELEK] = PudelekCrawler
+        CACHE[ContentSource.Target.PUDELEK] = PudelekCrawler
     }
 }

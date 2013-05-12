@@ -21,9 +21,8 @@ class PageDataProcessorService {
     void processData(final CrawledPage crawledPage) {
         log.info("Processing data for page ${crawledPage}")
         // try to create article based on crawled page data
-        Article article = articleService.create(crawledPage.meta.tags) { Article article ->
+        Article article = articleService.create(crawledPage.meta.tags, crawledPage.meta.contentSourceTarget) { Article article ->
             article.externalId = crawledPage.meta.externalId
-            article.source = crawledPage.meta.source
             article.publicationDate = crawledPage.meta.date
             article.url = crawledPage.meta.url
             article.title = crawledPage.content.title

@@ -1,6 +1,7 @@
 package vanity.crawler.spider
 
 import vanity.ContentSource
+import vanity.article.ContentSource
 
 class ManageController {
 
@@ -8,7 +9,7 @@ class ManageController {
 
     def index() {
         // prepare model data - collect all crawlers and it states
-        def crawlers = ContentSource.values().collect {
+        def crawlers = ContentSource.Target.values().collect {
             [source:it, status:crawlerExecutor.getStatus(it)]
         }
         // return model
@@ -16,15 +17,15 @@ class ManageController {
     }
 
     def startJob(){
-        def source = ContentSource.valueOf(ContentSource, params.source)
-        CrawlerJob.triggerNow(CrawlerJobConfiguratior.getTriggerNowParam(source))
+        def contentSourceTarget = ContentSource.Target.valueOf(ContentSource.Target, params.source)
+        CrawlerJob.triggerNow(CrawlerJobConfiguration.getTriggerNowParam(contentSourceTarget))
         flash.message = 'crawler.executed'
         redirect(action: 'index')
     }
 
     def stopJob(){
-        def source = ContentSource.valueOf(ContentSource, params.source)
-        crawlerExecutor.stop(source)
+        def contentSourceTarget = ContentSource.Target.valueOf(ContentSource.Target, params.source)
+        crawlerExecutor.stop(contentSourceTarget)
         flash.message = 'crawler.stopped'
         redirect(action: 'index')
     }
