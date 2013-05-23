@@ -18,7 +18,7 @@ class CrawlerExecutor {
     private String crawlStorageBaseFolder = grailsApplication.config.crawler.crawlStorageBaseFolder
 
     @Lazy
-    private int numberOfCrawlers = grailsApplication.config.crawler.numberOfCrawlers
+    private int numberOfCrawlers = grailsApplication.config.crawler.numberOfCrawlers as int
 
     public Status getStatus(final ContentSource.Target contentSourceTarget){
         if (!cache.isRegistered(contentSourceTarget)){

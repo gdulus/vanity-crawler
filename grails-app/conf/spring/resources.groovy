@@ -48,7 +48,7 @@ beans = {
         // persistence config - Kahadb
         persistent = true
         def kahaDBPersistenceAdapter =  new KahaDBPersistenceAdapter()
-        kahaDBPersistenceAdapter.directory = new File(application.config.jms.storage.location)
+        kahaDBPersistenceAdapter.directory = new File(application.config.crawler.jms.storage.location)
         persistenceAdapter = kahaDBPersistenceAdapter
         // enable producer flow control
         def policyMap = new PolicyMap();

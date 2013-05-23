@@ -18,7 +18,7 @@ class IndexerPostProcessor implements PostProcessor {
             article.hash,
             article.title,
             article.body,
-            article.source.toString(),
+            article.source.target,
             article.publicationDate,
             article.tags.collect {it.name} as Set
         )
