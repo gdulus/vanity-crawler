@@ -35,7 +35,7 @@ final class CrawlerJobConfiguration {
         }
 
         if (context.trigger.group == TRIGGER_GROUP){
-            return ContentSource.valueOf(context.trigger.name)
+            return ContentSource.Target.valueOf(context.trigger.name)
         }
 
         throw new IllegalArgumentException()
