@@ -19,5 +19,6 @@ class CrawlerFactory {
     @PostConstruct
     public void init(){
         CACHE[ContentSource.Target.PUDELEK] = PudelekCrawler
+        CACHE[ContentSource.Target.FAKT] = FaktCrawler
     }
 }

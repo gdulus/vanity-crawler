@@ -8,6 +8,19 @@ ConfigUtils.instance.externalConfig(grails, userHome) {
 }
 
 /**
+ * JMS setup
+ */
+jms {
+    containers {
+        crawler {
+            meta {
+                parentBean = 'standardJmsListenerContainer'
+            }
+        }
+    }
+}
+
+/**
  * Basic setup
  */
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination

@@ -7,20 +7,6 @@ import vanity.article.ContentSource
 @PackageScope
 class PudelekCrawler extends Crawler {
 
-    private static final String URL_REQUIRED_ELEMENT = '/artykul/'
-
-    private static final String EXT_VALUE_PATTERN = 'artykul/(\\d+)/'
-
-    private static final String DATE_SELECTOR = 'span.time'
-
-    private static final String DATE_FORMAT= 'dd.MM.yyyy'
-
-    private static final String TITLE_SELECTOR = '.header h1'
-
-    private static final String BODY_SELECTOR = 'div.single-entry-text.bbtext'
-
-    private static final String TAGS_SELECTOR = '.inline-tags a'
-
     PudelekCrawler() {
         super(ContentSource.Target.PUDELEK)
     }
@@ -28,38 +14,33 @@ class PudelekCrawler extends Crawler {
     @Override
     protected boolean shouldVisit(String url) {
         // to prevent /miko_ma_juz_nowego_faceta_przystojny/5/
-        return url.contains(URL_REQUIRED_ELEMENT) && !url.tokenize('/').last().isNumber()
+        return url.contains('/artykul/') && !url.tokenize('/').last().isNumber()
     }
 
     @Override
     protected Date getDate(final Document doc) {
-        String date =  doc.select(DATE_SELECTOR)?.first()?.text()?.tokenize()?.last()
-        return date ? Date.parse(DATE_FORMAT, date) : null
+        String date =  doc.select('span.time')?.first()?.text()?.tokenize()?.last()
+        return date ? Date.parse('dd.MM.yyyy', date) : null
     }
 
     @Override
     protected String getTitle(final Document doc) {
-        return doc.select(TITLE_SELECTOR)?.first()?.text()
+        return doc.select('.header h1')?.first()?.text()
     }
 
     @Override
     protected String getBody(final Document doc) {
-        return doc.select(BODY_SELECTOR)?.first()?.text()
+        return doc.select('div.single-entry-text.bbtext')?.first()?.text()
     }
 
     @Override
     protected Set<String> getTags(final Document doc) {
-        return doc.select(TAGS_SELECTOR)?.collect({it.text()}) as Set<String>
+        return doc.select('.inline-tags a')?.collect({it.text()}) as Set<String>
     }
 
     @Override
     protected String getExternalId(final String url, final Document doc) {
-        def matcher = (url =~ EXT_VALUE_PATTERN)
+        def matcher = (url =~ 'artykul/(\\d+)/')
         return (matcher[0] && matcher[0].last()?.isNumber() ? matcher[0].last() : null)
-    }
-
-    @Override
-    protected String getGenericUrl(final String url) {
-        return url.tokenize('?').first()
     }
 }

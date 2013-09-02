@@ -28,7 +28,7 @@ class IndexerPostProcessor implements PostProcessor {
 
     private Set<String> flatTagSet(final Set<Tag> tags, final Set<String> tagsNames){
         tags.each {final Tag tag ->
-            if (tag.childTags.size() > 0){
+            if (tag.hasChildren()){
                 flatTagSet(tag.childTags, tagsNames)
             }
 

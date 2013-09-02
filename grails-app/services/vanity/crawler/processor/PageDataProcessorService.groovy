@@ -1,12 +1,14 @@
 package vanity.crawler.processor
 
 import grails.plugin.jms.Queue
+import groovy.util.logging.Slf4j
 import vanity.article.Article
 import vanity.article.ArticleService
 import vanity.crawler.jms.MessageBus
 import vanity.crawler.processor.post.PostProcessorChain
 import vanity.crawler.spider.result.CrawledPage
 
+@Slf4j
 class PageDataProcessorService {
 
     static exposes = ['jms']
@@ -17,7 +19,7 @@ class PageDataProcessorService {
 
     PostProcessorChain postProcessorChain
 
-    @Queue(name=MessageBus.Constants.TO_BE_PROCESSED_QUEUE)
+    @Queue(name = MessageBus.Constants.TO_BE_PROCESSED_QUEUE, container = MessageBus.Constants.CONTAINER)
     void processData(final CrawledPage crawledPage) {
         log.info("Processing data for page ${crawledPage}")
         // try to create article based on crawled page data
@@ -30,10 +32,11 @@ class PageDataProcessorService {
         }
         // check if save was successful
         if (!article){
-            log.error("Error while saving article for crawled page ${crawledPage}")
+            log.error("Error while saving article for crawled page {}", crawledPage)
             return
         }
         // execute all other actions on top of crawled article
+        log.info("Article saved correctly {}, executing postprocessing", article)
         postProcessorChain.execute(article)
     }
 }

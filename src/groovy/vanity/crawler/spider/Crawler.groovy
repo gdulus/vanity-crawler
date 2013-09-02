@@ -8,7 +8,6 @@ import grails.util.Holders
 import groovy.util.logging.Log4j
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-
 import vanity.article.ContentSource
 import vanity.crawler.jms.MessageBus
 import vanity.crawler.spider.result.CrawledPage
@@ -37,11 +36,10 @@ abstract class Crawler extends WebCrawler {
 
     @Override
     public final void visit(final Page page) {
-        String url = getGenericUrl(page.getWebURL().getURL());
-        String genericUrl = getGenericUrl(url);
+        String url = page.getWebURL().getURL();
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
-        PageMeta meta = new PageMeta(getExternalId(url, doc), contentSourceTarget, genericUrl, getTags(doc), getDate(doc))
+        PageMeta meta = new PageMeta(getExternalId(url, doc), contentSourceTarget, url, getTags(doc), getDate(doc))
         PageContent content = new PageContent(getTitle(doc), getBody(doc))
         CrawledPage crawledPage = new CrawledPage(meta, content)
 
@@ -63,7 +61,5 @@ abstract class Crawler extends WebCrawler {
     protected abstract Set<String> getTags(Document doc)
 
     protected abstract String getExternalId(String url, Document doc)
-
-    protected abstract String getGenericUrl(String url)
 
 }

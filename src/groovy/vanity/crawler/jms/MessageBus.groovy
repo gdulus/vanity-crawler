@@ -20,5 +20,7 @@ class MessageBus {
 
         public static final String TO_BE_PROCESSED_QUEUE = 'toBeProcessed'
 
+        public static final String CONTAINER = 'crawler'
+
     }
 }
