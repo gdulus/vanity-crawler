@@ -4,6 +4,8 @@ import vanity.utils.ConfigUtils
  * set up all external config file
  */
 ConfigUtils.instance.externalConfig(grails, userHome) {
+    file 'base-db.properties'
+    file 'base-search.properties'
     file 'crawler-config.properties'
 }
 
