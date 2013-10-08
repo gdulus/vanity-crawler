@@ -30,16 +30,17 @@ grails.project.dependency.resolution = {
         compile('edu.uci.ics:crawler4j:3.4')
         compile('org.jsoup:jsoup:1.7.2')
         compile('org.apache.activemq:activemq-pool:5.7.0')
-        compile('org.apache.activemq:activemq-core:5.7.0'){ excludes 'slf4j-log4j12' }
+        compile('org.apache.activemq:activemq-core:5.7.0') { excludes 'slf4j-log4j12' }
         compile('postgresql:postgresql:9.1-901.jdbc4')
+        compile('org.springframework:spring-jms:3.2.4.RELEASE')
     }
 
     plugins {
+        build ":tomcat:7.0.42"
         runtime ":jquery:1.8.3"
         runtime ":resources:1.1.6"
         runtime ":database-migration:1.2.1"
-        runtime ":hibernate:$grailsVersion"
-        build ":tomcat:$grailsVersion"
+        runtime ":hibernate:3.6.10.1"
         compile ':cache:1.0.1'
         compile ":quartz:1.0-RC5"
         compile ":jms:1.2"
