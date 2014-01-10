@@ -5,45 +5,49 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler
 import edu.uci.ics.crawler4j.parser.HtmlParseData
 import edu.uci.ics.crawler4j.url.WebURL
 import grails.util.Holders
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import vanity.article.ArticleService
 import vanity.article.ContentSource
 import vanity.crawler.jms.MessageBus
 import vanity.crawler.spider.result.CrawledPage
 import vanity.crawler.spider.result.PageContent
 import vanity.crawler.spider.result.PageMeta
 
-@Log4j
+@Slf4j
 abstract class Crawler extends WebCrawler {
 
     protected final ContentSource.Target contentSourceTarget
 
     private final MessageBus messageBus
 
+    private final ArticleService articleService
+
     Crawler(ContentSource.Target contentSourceTarget) {
         this.contentSourceTarget = contentSourceTarget
         this.messageBus = Holders.applicationContext.getBean(MessageBus)
+        this.articleService = Holders.applicationContext.getBean(ArticleService)
     }
 
     @Override
     public final boolean shouldVisit(final WebURL url) {
         String href = url.getURL().toLowerCase();
-        return href.startsWith(contentSourceTarget.address) && shouldVisit(href)
+        return (href.startsWith(contentSourceTarget.address)
+            && shouldVisit(href)
+            && articleService.findByExternalId(getExternalId(href)))
     }
-
-    protected abstract boolean shouldVisit(String url)
 
     @Override
     public final void visit(final Page page) {
         String url = page.getWebURL().getURL();
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
-        PageMeta meta = new PageMeta(getExternalId(url, doc), contentSourceTarget, url, getTags(doc), getDate(doc))
+        PageMeta meta = new PageMeta(getExternalId(url), contentSourceTarget, url, getTags(doc), getDate(doc))
         PageContent content = new PageContent(getTitle(doc), getBody(doc))
         CrawledPage crawledPage = new CrawledPage(meta, content)
 
-        if (!crawledPage.validate()){
+        if (!crawledPage.validate()) {
             log.error("For [${url}] we have an errors ${crawledPage.errors}")
             return
         }
@@ -51,6 +55,8 @@ abstract class Crawler extends WebCrawler {
         log.info("Page [${url}] parsed successfuly")
         messageBus.sendToProcessor(crawledPage)
     }
+
+    protected abstract boolean shouldVisit(String url)
 
     protected abstract Date getDate(Document doc)
 
@@ -60,6 +66,6 @@ abstract class Crawler extends WebCrawler {
 
     protected abstract Set<String> getTags(Document doc)
 
-    protected abstract String getExternalId(String url, Document doc)
+    protected abstract String getExternalId(String url)
 
 }

@@ -19,7 +19,7 @@ class PudelekCrawler extends Crawler {
 
     @Override
     protected Date getDate(final Document doc) {
-        String date =  doc.select('span.time')?.first()?.text()?.tokenize()?.last()
+        String date = doc.select('span.time')?.first()?.text()?.tokenize()?.last()
         return date ? Date.parse('dd.MM.yyyy', date) : null
     }
 
@@ -35,11 +35,11 @@ class PudelekCrawler extends Crawler {
 
     @Override
     protected Set<String> getTags(final Document doc) {
-        return doc.select('.inline-tags a')?.collect({it.text()}) as Set<String>
+        return doc.select('.inline-tags a')?.collect({ it.text() }) as Set<String>
     }
 
     @Override
-    protected String getExternalId(final String url, final Document doc) {
+    protected String getExternalId(final String url) {
         def matcher = (url =~ 'artykul/(\\d+)/')
         return (matcher[0] && matcher[0].last()?.isNumber() ? matcher[0].last() : null)
     }
