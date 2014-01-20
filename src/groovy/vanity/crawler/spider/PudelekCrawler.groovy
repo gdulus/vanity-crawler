@@ -1,6 +1,7 @@
 package vanity.crawler.spider
 
 import groovy.transform.PackageScope
+import org.apache.commons.lang.StringUtils
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
 
@@ -12,7 +13,7 @@ class PudelekCrawler extends Crawler {
     }
 
     @Override
-    protected boolean shouldVisit(String url) {
+    protected boolean shouldParse(final String url) {
         // to prevent /miko_ma_juz_nowego_faceta_przystojny/5/
         return url.contains('/artykul/') && !url.tokenize('/').last().isNumber()
     }
@@ -25,7 +26,7 @@ class PudelekCrawler extends Crawler {
 
     @Override
     protected String getTitle(final Document doc) {
-        return doc.select('.header h1')?.first()?.text()
+        return doc.select('.single-entry__header h1')?.first()?.text()
     }
 
     @Override
@@ -41,6 +42,11 @@ class PudelekCrawler extends Crawler {
     @Override
     protected String getExternalId(final String url) {
         def matcher = (url =~ 'artykul/(\\d+)/')
+
+        if (!matcher) {
+            return StringUtils.EMPTY
+        }
+
         return (matcher[0] && matcher[0].last()?.isNumber() ? matcher[0].last() : null)
     }
 }

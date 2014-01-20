@@ -33,14 +33,18 @@ abstract class Crawler extends WebCrawler {
     @Override
     public final boolean shouldVisit(final WebURL url) {
         String href = url.getURL().toLowerCase();
-        return (href.startsWith(contentSourceTarget.address)
-            && shouldVisit(href)
-            && articleService.findByExternalId(getExternalId(href)))
+        return href.startsWith(contentSourceTarget.address)
     }
 
     @Override
     public final void visit(final Page page) {
         String url = page.getWebURL().getURL();
+
+        if (!isValidForParsing(url)) {
+            log.info('Skipping parsing for {}', url)
+            return
+        }
+
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
         PageMeta meta = new PageMeta(getExternalId(url), contentSourceTarget, url, getTags(doc), getDate(doc))
@@ -56,7 +60,11 @@ abstract class Crawler extends WebCrawler {
         messageBus.sendToProcessor(crawledPage)
     }
 
-    protected abstract boolean shouldVisit(String url)
+    private boolean isValidForParsing(final String url) {
+        return shouldParse(url) && !articleService.findByExternalId(getExternalId(url))
+    }
+
+    protected abstract boolean shouldParse(String url)
 
     protected abstract Date getDate(Document doc)
 

@@ -12,7 +12,7 @@ class FaktCrawler extends Crawler {
     }
 
     @Override
-    protected boolean shouldVisit(String url) {
+    protected boolean shouldParse(final String url) {
         return url.contains(',artykuly,')
     }
 
