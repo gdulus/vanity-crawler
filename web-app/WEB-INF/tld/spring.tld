@@ -449,8 +449,7 @@
     </tag>
 
     <tag>
-        <description>Evaluates a Spring expression (SpEL) and either prints the result or assigns it to a variable.
-        </description>
+        <description>Evaluates a Spring expression (SpEL) and either prints the result or assigns it to a variable.</description>
         <name>eval</name>
         <tag-class>org.springframework.web.servlet.tags.EvalTag</tag-class>
         <body-content>JSP</body-content>
