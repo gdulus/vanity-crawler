@@ -1,8 +1,10 @@
 package vanity.crawler.spider
 
-import vanity.ContentSource
+import grails.plugin.springsecurity.annotation.Secured
 import vanity.article.ContentSource
+import vanity.user.Authority
 
+@Secured([Authority.ROLE_ADMIN])
 class ManageController {
 
     CrawlerExecutor crawlerExecutor

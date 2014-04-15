@@ -14,3 +14,8 @@ body {
         padding-right: 5px;
     }
 }
+
+.btn-logout {
+    margin-bottom: 5px;
+    color: #ffffff;
+}

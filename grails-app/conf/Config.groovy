@@ -129,3 +129,19 @@ grails {
     }
 }
 remove this line */
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'vanity.user.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'vanity.user.UserRole'
+grails.plugin.springsecurity.authority.className = 'vanity.user.Role'
+grails.plugin.springsecurity.securityConfigType = "Annotation"
+grails.plugin.springsecurity.logout.postOnly = false
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+    '/': ['permitAll'],
+    '/index': ['permitAll'],
+    '/index.gsp': ['permitAll'],
+    '/**/js/**': ['permitAll'],
+    '/**/css/**': ['permitAll'],
+    '/**/images/**': ['permitAll'],
+    '/**/favicon.ico': ['permitAll']
+]

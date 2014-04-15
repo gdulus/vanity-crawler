@@ -3,8 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title><g:layoutTitle default="Vanity crawler"/></title>
-      	<g:layoutHead/>
+        <title><g:layoutTitle default="${g.message(code: 'vanity.crawler.title')}"/></title>
+        <g:layoutHead/>
         <r:layoutResources />
     </head>
     <body>
@@ -16,13 +16,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">Vanity Crawler</a>
-            <div class="nav-collapse collapse">
+                    <a class="brand" href="#"><g:message code="vanity.crawler.title"/></a>
+
+                    <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
-                    Logged in as <a href="#" class="navbar-link">Username</a>
+                    <g:link controller="logout" class="btn btn-small btn-danger btn-logout"><i class="icon-off icon-white"></i></g:link>
                 </p>
                 <ul class="nav">
-                    <li class="active"><a href="#">Crawlers</a></li>
+                    <li class="active"><a href="#"><g:message code="vanity.crawler.crawlers"/></a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -34,9 +35,8 @@
             <div class="span3">
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
-                    <li class="nav-header">Crawlers</li>
-                    <li class="active"><a href="#">List</a></li>
-                    <li><a href="#">Logs</a></li>
+                        <li class="nav-header"><g:message code="vanity.crawler.crawlers"/></li>
+                        <li class="active"><a href="#"><g:message code="vanity.crawler.list" /></a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
