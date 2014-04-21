@@ -21,5 +21,6 @@ class CrawlerFactory {
         CACHE[ContentSource.Target.PUDELEK] = PudelekCrawler
         CACHE[ContentSource.Target.FAKT] = FaktCrawler
         CACHE[ContentSource.Target.PLOTEK] = PlotekCrawler
+        CACHE[ContentSource.Target.KOZACZEK] = KozaczekCrawler
     }
 }
