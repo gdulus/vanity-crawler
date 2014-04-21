@@ -1,10 +1,11 @@
 package vanity.crawler.spider
 
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import org.quartz.JobExecutionContext
 import vanity.article.ContentSource
+import vanity.article.ContentSourceService
 
-@Log4j
+@Slf4j
 class CrawlerJob {
 
     static triggers = {
@@ -15,14 +16,21 @@ class CrawlerJob {
 
     CrawlerExecutor crawlerExecutor
 
+    ContentSourceService contentSourceService
+
     def execute(final JobExecutionContext context) {
-        // get source for which job was executed
-        ContentSource.Target source = CrawlerJobConfiguration.getContentSource(context)
-        // execute crawling
-        if (crawlerExecutor.startFor(source)){
-            log.info("Crawling for ${source} finished succesfully")
+        ContentSource.Target target = CrawlerJobConfiguration.getContentSource(context)
+        ContentSource source = contentSourceService.get(target)
+
+        if (source.disabled) {
+            log.warn("Crawler for {} is disabled - skipping execution", target)
+            return
+        }
+
+        if (crawlerExecutor.startFor(target)) {
+            log.info("Crawling for {} finished successfully", target)
         } else {
-            log.warn("Seams that crawler for ${source} is running now - skip execution")
+            log.warn("Seams that crawler for {} is running now - skip execution", target)
         }
     }
 
