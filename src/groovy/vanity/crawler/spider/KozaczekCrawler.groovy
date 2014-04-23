@@ -18,7 +18,7 @@ class KozaczekCrawler extends Crawler {
     @Override
     protected Date getDate(final Document doc) {
         String date = doc.select('.plotki_header > span')?.first()?.text()?.tokenize()?.last()
-        return date ? Date.parse('dd.MM.yyyy', date) : null
+        return date ? Date.parse('dd-MM-yyyy', date) : null
     }
 
     @Override
