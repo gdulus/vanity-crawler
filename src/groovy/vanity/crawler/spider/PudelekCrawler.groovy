@@ -1,11 +1,9 @@
 package vanity.crawler.spider
 
-import groovy.transform.PackageScope
 import org.apache.commons.lang.StringUtils
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
 
-@PackageScope
 class PudelekCrawler extends Crawler {
 
     PudelekCrawler() {

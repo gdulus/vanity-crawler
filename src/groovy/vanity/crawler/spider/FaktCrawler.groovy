@@ -1,10 +1,8 @@
 package vanity.crawler.spider
 
-import groovy.transform.PackageScope
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
 
-@PackageScope
 class FaktCrawler extends Crawler {
 
     FaktCrawler() {
