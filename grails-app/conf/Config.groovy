@@ -3,7 +3,7 @@ import vanity.utils.ConfigUtils
 /**
  * set up all external config file
  */
-ConfigUtils.externalConfig(grails, userHome) {
+ConfigUtils.externalConfig(grails) {
     file 'base-db'
     file 'base-search'
     file 'base-files'
