@@ -2,6 +2,7 @@ package vanity.crawler.spider
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import vanity.article.ContentSource
 
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentMap
 
 class CrawlerExecutor {
 
+    @Autowired
     public CrawlerFactory crawlerFactory
 
     @Value('${crawler.crawlStorageBaseFolder}')
