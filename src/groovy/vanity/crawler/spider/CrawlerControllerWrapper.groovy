@@ -24,15 +24,11 @@ final class CrawlerControllerWrapper {
         this.sourceAddress = sourceAddress
     }
 
-    public void start(final Class<? extends Crawler> crawler, final int numberOfCrawlers) {
-        // initialize base object necessary to run crawler
-        CrawlConfig config = new CrawlConfig()
-        config.setCrawlStorageFolder(crawlStorageFolder)
-        PageFetcher pageFetcher = new PageFetcher(config);
-        RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+    public void start(final Class<? extends Crawler> crawler, final int numberOfCrawlers, final CrawlConfig crawlConfig, final RobotstxtConfig robotstxtConfig) {
+        PageFetcher pageFetcher = new PageFetcher(crawlConfig);
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher)
         // execute crawler
-        controller = new CrawlController(config, pageFetcher, robotstxtServer)
+        controller = new CrawlController(crawlConfig, pageFetcher, robotstxtServer)
         controller.addSeed(sourceAddress)
         controller.start(crawler, numberOfCrawlers)
     }
