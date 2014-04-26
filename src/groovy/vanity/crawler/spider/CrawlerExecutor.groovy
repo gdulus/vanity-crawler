@@ -25,7 +25,7 @@ class CrawlerExecutor {
     public int politenessDelay
 
     @Value('${crawler.userAgentName}')
-    public int userAgentName
+    public String userAgentName
 
     private final ExecutorCache cache = new ExecutorCache()
 
