@@ -17,5 +17,5 @@ println "Date1: " + doc.select('.contentHeader .meta')?.first()?.text()?.tokeniz
 println "Body: " + doc.select('div.contentBody p')?.collect({ it.text() }).join(' ')
 println "Tags: " + doc.select('#gazeta_article_tags li').collect { it.text() }
 
-def matcher = (address =~ '.{5}$')
+def matcher = (address =~ '\\w{5}$')
 println "External id: " + matcher[0]
