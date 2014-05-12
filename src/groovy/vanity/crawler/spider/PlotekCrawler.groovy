@@ -33,7 +33,7 @@ class PlotekCrawler extends Crawler {
 
     @Override
     protected Set<String> getTags(final Document doc) {
-        return doc.select('#gazeta_article_tags li').collect { it.text() } as Set<String>
+        return doc.select('#gazeta_article_tags li a').collect { it.text() } as Set<String>
     }
 
     @Override
