@@ -9,7 +9,7 @@ final class CrawlerJobConfiguration {
 
     private static final int DEFAULT_START_DELAY = 60000 * 10       // 10 minutes
 
-    private static final int DEFAULT_REPEAT_INTERVAL = 60000 * 60   // one hour
+    private static final int DEFAULT_REPEAT_INTERVAL = 60000 * 30   // 30 min
 
     private static final int DEFAULT_REPEAT_COUNT = -1
 
