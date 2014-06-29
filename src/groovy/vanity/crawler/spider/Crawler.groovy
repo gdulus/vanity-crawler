@@ -47,9 +47,16 @@ abstract class Crawler extends WebCrawler {
 
         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
         Document doc = Jsoup.parse(htmlParseData.html)
-        PageMeta meta = new PageMeta(getExternalId(url), contentSourceTarget, url, getTags(doc), getDate(doc))
-        PageContent content = new PageContent(getTitle(doc), getBody(doc))
-        CrawledPage crawledPage = new CrawledPage(meta, content)
+        CrawledPage crawledPage
+
+        try {
+            PageMeta meta = new PageMeta(getExternalId(url), contentSourceTarget, url, getTags(doc), getDate(doc))
+            PageContent content = new PageContent(getTitle(doc), getBody(doc))
+            crawledPage = new CrawledPage(meta, content)
+        } catch (Exception e) {
+            log.error("Exception during parsing ${url}", e)
+            return
+        }
 
         if (!crawledPage.validate()) {
             log.error("For [${url}] we have an errors ${crawledPage.errors}")
@@ -61,7 +68,17 @@ abstract class Crawler extends WebCrawler {
     }
 
     private boolean isValidForParsing(final String url) {
-        return shouldParse(url) && !articleService.findByExternalId(getExternalId(url))
+        if (!shouldParse(url)){
+            log.info('Parsing of {} skipped due to custom validation issue')
+            return false
+        }
+
+        if (articleService.findByExternalId(getExternalId(url))){
+            log.info('Parsing of {} skipped due external id validation issue')
+            return false
+        }
+
+        return true
     }
 
     protected abstract boolean shouldParse(String url)

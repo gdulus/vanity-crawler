@@ -14,5 +14,5 @@ println "Date: " + Date.parse('dd.MM.yyyy HH:mm', doc.select('#gazeta_article_da
 println "Body: " + doc.select('div.cmsArtykulElem')?.first()?.text()
 println "Tags: " + doc.select('#gazeta_article_tags li').collect { it.text() }
 
-def matcher = (url =~ 'plotek/(\\d+)/')
+def matcher = (address =~ 'plotek/(\\d+)/')
 println "External id: " + address.split('/plotek/').last().split(',')[0..2].join(',')
