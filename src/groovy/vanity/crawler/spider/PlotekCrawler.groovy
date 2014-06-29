@@ -12,7 +12,13 @@ class PlotekCrawler extends Crawler {
 
     @Override
     protected boolean shouldParse(final String url) {
-        return (getExternalId(url) != StringUtils.EMPTY)
+        String externalId = getExternalId(url)
+
+        if (!externalId){
+            return false
+        }
+        // list video plotek zaczyna sie z 0
+        return externalId.split(',').first() != '0'
     }
 
     @Override

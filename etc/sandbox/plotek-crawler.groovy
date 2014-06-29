@@ -15,4 +15,10 @@ println "Body: " + doc.select('div.cmsArtykulElem')?.first()?.text()
 println "Tags: " + doc.select('#gazeta_article_tags li').collect { it.text() }
 
 def matcher = (address =~ 'plotek/(\\d+)/')
-println "External id: " + address.split('/plotek/').last().split(',')[0..2].join(',')
+def externalId = address.split('/plotek/').last().split(',')[0..2].join(',')
+
+println "matcher: " + matcher
+
+def first = externalId.split(',').first()
+def videoList = first == '1'
+println "video plotka: " + videoList
