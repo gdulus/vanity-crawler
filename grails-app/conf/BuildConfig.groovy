@@ -27,7 +27,7 @@ grails.project.dependency.resolution = {
     }
 
     dependencies {
-        compile('edu.uci.ics:crawler4j:3.4')
+        compile('edu.uci.ics:crawler4j:3.5')
         compile('org.jsoup:jsoup:1.7.2')
         compile('org.apache.activemq:activemq-pool:5.7.0')
         compile('org.apache.activemq:activemq-core:5.7.0') { excludes 'slf4j-log4j12' }
