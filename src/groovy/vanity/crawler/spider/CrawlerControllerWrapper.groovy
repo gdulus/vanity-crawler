@@ -34,7 +34,7 @@ final class CrawlerControllerWrapper {
     }
 
     public void stop(){
-        controller.Shutdown()
+        controller.shutdown()
     }
 
     public boolean isStopping(){
