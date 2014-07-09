@@ -90,7 +90,7 @@ class CrawlerExecutor {
             File storageFolder = new File(crawlConfig.crawlStorageFolder)
             if (storageFolder.exists()){
                 log.info('Deleting cash folder {}', storageFolder)
-                storageFolder.delete()
+                storageFolder.deleteDir()
             }
             // trigger execution
             controllerWrapper.start(crawler, numberOfCrawlers, crawlConfig, robotstxtConfig)
