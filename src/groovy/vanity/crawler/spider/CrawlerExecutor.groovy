@@ -2,6 +2,7 @@ package vanity.crawler.spider
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import vanity.article.ContentSource
@@ -9,6 +10,7 @@ import vanity.article.ContentSource
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 
+@Slf4j
 class CrawlerExecutor {
 
     @Autowired
@@ -84,6 +86,13 @@ class CrawlerExecutor {
             Class<? extends Crawler> crawler = crawlerFactory.produce(contentSourceTarget)
             CrawlConfig crawlConfig = getCrawlConfig(contentSourceTarget)
             RobotstxtConfig robotstxtConfig = getRobotstxtConfig()
+            // clean up working dir, for some reason crawling doesn't work when cashed
+            File storageFolder = new File(crawlConfig.crawlStorageFolder)
+            if (storageFolder.exists()){
+                log.info('Deleting cash folder {}', storageFolder)
+                storageFolder.delete()
+            }
+            // trigger execution
             controllerWrapper.start(crawler, numberOfCrawlers, crawlConfig, robotstxtConfig)
         } finally {
             cache.unRegister(contentSourceTarget, controllerWrapper)
