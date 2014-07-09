@@ -68,12 +68,17 @@ abstract class Crawler extends WebCrawler {
     }
 
     private boolean isValidForParsing(final String url) {
-        if (!shouldParse(url)){
+        // main page
+        if (url == contentSourceTarget.address) {
+            return true
+        }
+
+        if (!shouldParse(url)) {
             log.info('Parsing of {} skipped due to custom validation issue', url)
             return false
         }
 
-        if (articleService.findByExternalId(getExternalId(url))){
+        if (articleService.findByExternalId(getExternalId(url))) {
             log.info('Parsing of {} skipped due external id validation issue', url)
             return false
         }
