@@ -104,7 +104,6 @@ class CrawlerExecutor {
     private CrawlConfig getCrawlConfig(final ContentSource.Target contentSourceTarget) {
         CrawlConfig config = new CrawlConfig()
         config.crawlStorageFolder = "${crawlStorageBaseFolder}/${contentSourceTarget}"
-        config.resumableCrawling = true
 
         if (maxDepthOfCrawling) {
             config.maxDepthOfCrawling = maxDepthOfCrawling
