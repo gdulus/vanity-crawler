@@ -6,10 +6,10 @@ import vanity.article.Article
 import vanity.article.ArticleService
 import vanity.crawler.jms.MessageBus
 import vanity.crawler.processor.post.PostProcessorChain
-import vanity.crawler.spider.result.CrawledPage
+import vanity.crawler.parser.result.CrawledPage
 
 @Slf4j
-class PageDataProcessorService {
+class ProcessorService {
 
     static exposes = ['jms']
 
@@ -19,7 +19,7 @@ class PageDataProcessorService {
 
     PostProcessorChain postProcessorChain
 
-    @Queue(name = MessageBus.Constants.TO_BE_PROCESSED_QUEUE, container = MessageBus.Constants.CONTAINER)
+    @Queue(name = MessageBus.Constants.PROCESSING_QUEUE, container = MessageBus.Constants.CONTAINER)
     void processData(final CrawledPage crawledPage) {
         log.info("Processing data for page ${crawledPage}")
         // try to create article based on crawled page data

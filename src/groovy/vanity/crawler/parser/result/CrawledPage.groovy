@@ -1,4 +1,4 @@
-package vanity.crawler.spider.result
+package vanity.crawler.parser.result
 
 final class CrawledPage implements Serializable {
 

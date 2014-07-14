@@ -1,13 +1,15 @@
-package vanity.crawler.spider
+package vanity.crawler.impl
 
 import org.apache.commons.lang.StringUtils
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
+import vanity.crawler.parser.AbstractParser
 
-class KozaczekCrawler extends Crawler {
+class KozaczekParser extends AbstractParser {
 
-    KozaczekCrawler() {
-        super(ContentSource.Target.KOZACZEK)
+    @Override
+    ContentSource.Target parses() {
+        return ContentSource.Target.KOZACZEK
     }
 
     @Override

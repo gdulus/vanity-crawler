@@ -1,13 +1,15 @@
-package vanity.crawler.spider
+package vanity.crawler.impl
 
 import org.apache.commons.lang.StringUtils
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
+import vanity.crawler.parser.AbstractParser
 
-class PudelekCrawler extends Crawler {
+class PudelekParser extends AbstractParser {
 
-    PudelekCrawler() {
-        super(ContentSource.Target.PUDELEK)
+    @Override
+    ContentSource.Target parses() {
+        return ContentSource.Target.PUDELEK
     }
 
     @Override

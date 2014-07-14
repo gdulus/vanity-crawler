@@ -1,20 +1,22 @@
-package vanity.crawler.spider
+package vanity.crawler.impl
 
 import org.apache.commons.lang.StringUtils
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
+import vanity.crawler.parser.AbstractParser
 
-class PlotekCrawler extends Crawler {
+class PlotekParser extends AbstractParser {
 
-    PlotekCrawler() {
-        super(ContentSource.Target.PLOTEK)
+    @Override
+    ContentSource.Target parses() {
+        return ContentSource.Target.PLOTEK
     }
 
     @Override
     protected boolean shouldParse(final String url) {
         String externalId = getExternalId(url)
 
-        if (!externalId){
+        if (!externalId) {
             return false
         }
         // list video plotek zaczyna sie z 0

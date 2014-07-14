@@ -27,7 +27,7 @@ class CrawlerJob {
             return
         }
 
-        if (crawlerExecutor.startFor(target)) {
+        if (crawlerExecutor.start(target)) {
             log.info("Crawling for {} finished successfully", target)
         } else {
             log.warn("Seams that crawler for {} is running now - skip execution", target)

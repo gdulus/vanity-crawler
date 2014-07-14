@@ -1,12 +1,14 @@
-package vanity.crawler.spider
+package vanity.crawler.impl
 
 import org.jsoup.nodes.Document
 import vanity.article.ContentSource
+import vanity.crawler.parser.AbstractParser
 
-class FaktCrawler extends Crawler {
+class FaktParser extends AbstractParser {
 
-    FaktCrawler() {
-        super(ContentSource.Target.FAKT)
+    @Override
+    ContentSource.Target parses() {
+        return ContentSource.Target.FAKT
     }
 
     @Override

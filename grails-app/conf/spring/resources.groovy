@@ -1,12 +1,19 @@
 import org.apache.activemq.broker.region.policy.PolicyEntry
 import org.apache.activemq.broker.region.policy.PolicyMap
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter
+import vanity.crawler.impl.FaktParser
+import vanity.crawler.impl.KozaczekParser
+import vanity.crawler.impl.PlotekParser
+import vanity.crawler.impl.PudelekParser
 import vanity.crawler.jms.MessageBus
+import vanity.crawler.parser.ParserConfigFactory
+import vanity.crawler.parser.ParserFactory
 import vanity.crawler.processor.post.PostProcessorChain
 import vanity.crawler.processor.post.indexer.IndexerPostProcessor
 import vanity.crawler.processor.post.webImage.CutyCaptWebPageImageProvider
 import vanity.crawler.spider.CrawlerExecutor
-import vanity.crawler.spider.CrawlerFactory
+import vanity.crawler.parser.ParserFactory
+import vanity.crawler.spider.CrawlerMonitor
 
 // Place your Spring DSL code here
 beans = {
@@ -30,8 +37,14 @@ beans = {
     /**
      * Crawler wiring
      */
-    crawlerFactory(CrawlerFactory){bean -> bean.autowire = 'byName'}
-    crawlerExecutor(CrawlerExecutor){bean -> bean.autowire = 'byName'}
+    crawlerMonitor(CrawlerMonitor)
+    crawlerFactory(ParserFactory)
+    parserConfigFactory(ParserConfigFactory)
+    crawlerExecutor(CrawlerExecutor)
+    faktParser(FaktParser)
+    kozaczekParser(KozaczekParser)
+    plotekParser(PlotekParser)
+    pudelekParser(PudelekParser)
 
     /**
      * JMS wiring
@@ -65,7 +78,7 @@ beans = {
     pooledConnectionFactory(org.apache.activemq.pool.PooledConnectionFactory) { bean ->
         bean.initMethod = 'start'
         bean.destroyMethod = 'stop'
-        maxConnections = 8
+        maxConnections = 50
         connectionFactory = ref('jmsConnectionFactory')
     }
 
