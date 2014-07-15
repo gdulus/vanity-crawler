@@ -1,4 +1,4 @@
-<%@ page import="vanity.crawler.spider.CrawlerExecutor" %>
+<%@ page import="vanity.crawler.spider.CrawlerExecutionSynchronizer;" %>
 <html>
 <head>
     <title></title>
@@ -46,12 +46,12 @@
                     <g:link action="disableCrawler" id="${crawler.source.id}" class="btn btn-danger btn-small">
                         <g:message code="crawler.disable"/>
                     </g:link>
-                    <g:if test="${crawler.status == CrawlerExecutor.Status.WORKING}">
+                    <g:if test="${crawler.status == CrawlerExecutionSynchronizer.Status.WORKING}">
                         <g:link action="stopJob" id="${crawler.source.id}" class="btn btn-danger btn-small">
                             <g:message code="crawler.stop"/>
                         </g:link>
                     </g:if>
-                    <g:elseif test="${crawler.status == CrawlerExecutor.Status.STOPPING}">
+                    <g:elseif test="${crawler.status == CrawlerExecutionSynchronizer.Status.STOPPING}">
                         <button class="btn btn-warning btn-small" disabled="disabled">
                             <g:message code="crawler.stopping"/>
                         </button>

@@ -17,19 +17,19 @@ class CrawlerExecutor {
     public MessageBus messageBus
 
     @Autowired
-    public CrawlerMonitor monitor
+    public CrawlerExecutionSynchronizer synchronizer
 
-    public CrawlerMonitor.Status getStatus(final ContentSource.Target contentSourceTarget) {
-        monitor.getStatus(contentSourceTarget)
+    public CrawlerExecutionSynchronizer.Status getStatus(final ContentSource.Target contentSourceTarget) {
+        synchronizer.getStatus(contentSourceTarget)
     }
 
     public boolean stop(final ContentSource.Target contentSourceTarget) {
-        monitor.stop(contentSourceTarget)
+        synchronizer.stop(contentSourceTarget)
     }
 
     public boolean start(final ContentSource.Target contentSourceTarget) {
         // check without locking if we process current source
-        if (monitor.getStatus(contentSourceTarget) == CrawlerMonitor.Status.WORKING || !monitor.start(contentSourceTarget)) {
+        if (synchronizer.getStatus(contentSourceTarget) == CrawlerExecutionSynchronizer.Status.WORKING || !synchronizer.start(contentSourceTarget)) {
             log.info('Crawler {} currently running, skipping', contentSourceTarget)
             return false
         }

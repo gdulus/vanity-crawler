@@ -11,9 +11,12 @@ import vanity.crawler.parser.ParserFactory
 import vanity.crawler.processor.post.PostProcessorChain
 import vanity.crawler.processor.post.indexer.IndexerPostProcessor
 import vanity.crawler.processor.post.webImage.CutyCaptWebPageImageProvider
+import vanity.crawler.spider.CrawlerExecutionSynchronizer
 import vanity.crawler.spider.CrawlerExecutor
 import vanity.crawler.parser.ParserFactory
-import vanity.crawler.spider.CrawlerMonitor
+import vanity.crawler.spider.CrawlerExecutionSynchronizer
+import vanity.crawler.spider.CrawlerExecutionSynchronizer
+import vanity.crawler.spider.CrawlerExecutionSynchronizer
 
 // Place your Spring DSL code here
 beans = {
@@ -37,7 +40,7 @@ beans = {
     /**
      * Crawler wiring
      */
-    crawlerMonitor(CrawlerMonitor)
+    crawlerExecutionSynchronizer(CrawlerExecutionSynchronizer)
     crawlerFactory(ParserFactory)
     parserConfigFactory(ParserConfigFactory)
     crawlerExecutor(CrawlerExecutor)
