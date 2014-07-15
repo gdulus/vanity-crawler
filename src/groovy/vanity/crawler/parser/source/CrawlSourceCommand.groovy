@@ -27,6 +27,10 @@ class CrawlSourceCommand implements Serializable {
     }
 
     private String prepareURL(ContentSource.Target source, String url) {
+        if (url.startsWith('http')){
+            return url
+        }
+
         if (url.startsWith(source.address)) {
             return url
         }
