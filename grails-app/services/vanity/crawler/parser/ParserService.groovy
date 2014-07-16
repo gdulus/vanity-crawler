@@ -98,6 +98,7 @@ class ParserService {
         private Document document = {
             Jsoup.connect(crawlCommand.url)
                 .timeout(config.timeout)
+                .userAgent(config.userAgentName)
                 .followRedirects(true)
                 .get()
         }()

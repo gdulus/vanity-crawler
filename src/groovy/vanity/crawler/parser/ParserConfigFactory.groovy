@@ -14,12 +14,15 @@ class ParserConfigFactory {
     @Value('${crawler.userAgentName}')
     public String userAgentName
 
+    @Value('${crawler.timeout}')
+    public int timeout
+
     public ParserConfig produce(final ContentSource.Target contentSourceTarget) {
         return new ParserConfig(
             maxDepthOfCrawling: maxDepthOfCrawling,
             politenessDelay: politenessDelay,
             userAgentName: userAgentName,
-            timeout: 50000
+            timeout: timeout
         )
     }
 
