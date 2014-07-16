@@ -6,6 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.springframework.beans.factory.annotation.Autowired
 import vanity.crawler.jms.MessageBus
+import vanity.crawler.jms.MessageBusConstants
 import vanity.crawler.parser.result.CrawledPage
 import vanity.crawler.parser.source.CrawlSourceCommand
 import vanity.crawler.spider.CrawlerExecutionSynchronizer
@@ -29,9 +30,9 @@ class ParserService {
     @Autowired
     CrawlerExecutionSynchronizer synchronizer
 
-    @Queue(name = MessageBus.Constants.PARSING_QUEUE, container = MessageBus.Constants.CONTAINER)
+    @Queue(name = MessageBusConstants.PARSING_QUEUE, container = MessageBusConstants.CONTAINER)
     void processData(final CrawlSourceCommand crawlCommand) {
-        synchronizer.execute(crawlCommand.source) { Integer executionIndex ->
+        synchronizer.execute(crawlCommand) {
             log.info('Executing parsing for {}', crawlCommand)
 
             ParserConfig config = parserConfigFactory.produce(crawlCommand.source)
@@ -40,18 +41,12 @@ class ParserService {
 
             if (parseContext.isMaxDepthExceeded()) {
                 log.info('Parsing {} stop - max depth policy', crawlCommand)
-                return 0
+                return Collections.emptySet()
             }
 
             if (parseContext.isVisitProhibited()) {
                 log.info('Parsing {} stop - should visit policy', crawlCommand)
-                return 0
-            }
-
-            if (parseContext.isNumberOfCrawlersExceeded(executionIndex)) {
-                log.info('Parsing {} stop - max number of crawlers policy', crawlCommand)
-                messageBus.send(crawlCommand)
-                return 1
+                return Collections.emptySet()
             }
 
             if (parseContext.isPauseRequested()) {
@@ -79,16 +74,15 @@ class ParserService {
         }
     }
 
-    private int executeParsingRelatedPages(final ParseContext parseContext) {
+    private Set<String> executeParsingRelatedPages(final ParseContext parseContext) {
         Set<String> links = parseContext.executeRelatedPagesScan()
 
         if (links) {
             log.info('Found {} external links for crawler {}', links.size(), parseContext)
-            links.each { messageBus.send(new CrawlSourceCommand(it, parseContext.crawlCommand)) }
-            return links.size()
+            return links
         } else {
             log.info('No external links found for {}', parseContext)
-            return 0
+            return Collections.emptySet()
         }
     }
 
@@ -101,7 +95,12 @@ class ParserService {
         final CrawlSourceCommand crawlCommand
 
         @Lazy
-        private Document document = Jsoup.connect(crawlCommand.url).timeout(5000).get()
+        private Document document = {
+            Jsoup.connect(crawlCommand.url)
+                .timeout(config.timeout)
+                .followRedirects(true)
+                .get()
+        }()
 
         ParseContext(ParserConfig config, Parser parser, CrawlSourceCommand crawlCommand) {
             this.config = config
@@ -111,10 +110,6 @@ class ParserService {
 
         public boolean isMaxDepthExceeded() {
             return config.maxDepthOfCrawling == crawlCommand.depth
-        }
-
-        public boolean isNumberOfCrawlersExceeded(final Integer executionIndex) {
-            return config.numberOfCrawlers < executionIndex
         }
 
         public boolean isVisitProhibited() {

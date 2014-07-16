@@ -5,12 +5,6 @@ import vanity.article.ContentSource
 
 class ParserConfigFactory {
 
-    @Value('${crawler.crawlStorageBaseFolder}')
-    public String crawlStorageBaseFolder
-
-    @Value('${crawler.numberOfCrawlers}')
-    public int numberOfCrawlers
-
     @Value('${crawler.maxDepthOfCrawling}')
     public int maxDepthOfCrawling
 
@@ -22,11 +16,10 @@ class ParserConfigFactory {
 
     public ParserConfig produce(final ContentSource.Target contentSourceTarget) {
         return new ParserConfig(
-            crawlStorageBaseFolder: crawlStorageBaseFolder,
-            numberOfCrawlers: numberOfCrawlers,
             maxDepthOfCrawling: maxDepthOfCrawling,
             politenessDelay: politenessDelay,
-            userAgentName: userAgentName
+            userAgentName: userAgentName,
+            timeout: 50000
         )
     }
 

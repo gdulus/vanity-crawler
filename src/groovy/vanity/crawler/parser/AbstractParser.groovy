@@ -31,7 +31,7 @@ abstract class AbstractParser implements Parser {
             return false
         }
 
-        if (articleService.findByExternalId(getExternalId(url))) {
+        if (articleService.findByExternalIdAndContentSource(getExternalId(url), parses())) {
             log.info('Parsing of {} skipped - already parsed', url)
             return false
         }

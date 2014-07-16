@@ -13,13 +13,15 @@ import vanity.crawler.processor.post.indexer.IndexerPostProcessor
 import vanity.crawler.processor.post.webImage.CutyCaptWebPageImageProvider
 import vanity.crawler.spider.CrawlerExecutionSynchronizer
 import vanity.crawler.spider.CrawlerExecutor
-import vanity.crawler.parser.ParserFactory
-import vanity.crawler.spider.CrawlerExecutionSynchronizer
-import vanity.crawler.spider.CrawlerExecutionSynchronizer
-import vanity.crawler.spider.CrawlerExecutionSynchronizer
 
 // Place your Spring DSL code here
 beans = {
+
+    /**
+     * @Async
+     */
+    xmlns task: "http://www.springframework.org/schema/task"
+    task.'annotation-driven'('proxy-target-class': true, 'mode': 'proxy')
 
     /**
      * Processing wiring
@@ -52,18 +54,16 @@ beans = {
     /**
      * JMS wiring
      */
-    mesageBus(MessageBus){bean ->
-        bean.constructorArgs = [ref('jmsService')]
-    }
+    mesageBus(MessageBus)
 
-    crawlerBroker(org.apache.activemq.xbean.XBeanBrokerService) {bean ->
+    crawlerBroker(org.apache.activemq.xbean.XBeanBrokerService) { bean ->
         // broker name
         brokerName = 'crawler'
         // jmx yes, lets see what happen inside
         useJmx = true
         // persistence config - Kahadb
         persistent = true
-        def kahaDBPersistenceAdapter =  new KahaDBPersistenceAdapter()
+        def kahaDBPersistenceAdapter = new KahaDBPersistenceAdapter()
         kahaDBPersistenceAdapter.directory = new File(application.config.crawler.jms.storage.location)
         persistenceAdapter = kahaDBPersistenceAdapter
         // enable producer flow control
@@ -75,7 +75,7 @@ beans = {
     }
 
     jmsConnectionFactory(org.apache.activemq.ActiveMQConnectionFactory) {
-    	brokerURL = 'vm://crawler?create=false'
+        brokerURL = 'vm://crawler?create=false'
     }
 
     pooledConnectionFactory(org.apache.activemq.pool.PooledConnectionFactory) { bean ->
