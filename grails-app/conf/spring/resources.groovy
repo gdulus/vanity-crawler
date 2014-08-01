@@ -1,10 +1,7 @@
 import org.apache.activemq.broker.region.policy.PolicyEntry
 import org.apache.activemq.broker.region.policy.PolicyMap
 import org.apache.activemq.store.kahadb.KahaDBPersistenceAdapter
-import vanity.crawler.impl.FaktParser
-import vanity.crawler.impl.KozaczekParser
-import vanity.crawler.impl.PlotekParser
-import vanity.crawler.impl.PudelekParser
+import vanity.crawler.impl.*
 import vanity.crawler.jms.MessageBus
 import vanity.crawler.parser.ParserConfigFactory
 import vanity.crawler.parser.ParserFactory
@@ -50,6 +47,7 @@ beans = {
     kozaczekParser(KozaczekParser)
     plotekParser(PlotekParser)
     pudelekParser(PudelekParser)
+    nocotyParser(NocotyParser)
 
     /**
      * JMS wiring
@@ -61,11 +59,8 @@ beans = {
         brokerName = 'crawler'
         // jmx yes, lets see what happen inside
         useJmx = true
-        // persistence config - Kahadb
-        persistent = true
-        def kahaDBPersistenceAdapter = new KahaDBPersistenceAdapter()
-        kahaDBPersistenceAdapter.directory = new File(application.config.crawler.jms.storage.location)
-        persistenceAdapter = kahaDBPersistenceAdapter
+        // persistence config
+        persistent = false
         // enable producer flow control
         def policyMap = new PolicyMap();
         def defaultPolicy = new PolicyEntry();

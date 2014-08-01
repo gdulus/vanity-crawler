@@ -19,23 +19,23 @@ class PudelekParser extends AbstractParser {
     }
 
     @Override
-    protected Date getDate(final Document doc) {
+    protected Date getDate(final String url, final Document doc) {
         String date = doc.select('span.time')?.first()?.text()?.tokenize()?.last()
         return date ? Date.parse('dd.MM.yyyy', date) : null
     }
 
     @Override
-    protected String getTitle(final Document doc) {
+    protected String getTitle(final String url, final Document doc) {
         return doc.select('.single-entry__header h1')?.first()?.text()
     }
 
     @Override
-    protected String getBody(final Document doc) {
+    protected String getBody(final String url, final Document doc) {
         return doc.select('div.single-entry-text.bbtext')?.first()?.text()
     }
 
     @Override
-    protected Set<String> getTags(final Document doc) {
+    protected Set<String> getTags(final String url, final Document doc) {
         return doc.select('.inline-tags a')?.collect({ it.text() }) as Set<String>
     }
 

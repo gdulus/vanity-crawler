@@ -41,20 +41,20 @@ abstract class AbstractParser implements Parser {
 
     @Override
     public final CrawledPage visit(final String url, final Document document) {
-        PageMeta meta = new PageMeta(getExternalId(url), parses(), url, getTags(document), getDate(document))
-        PageContent content = new PageContent(getTitle(document), getBody(document))
+        PageMeta meta = new PageMeta(getExternalId(url), parses(), url, getTags(url, document), getDate(url, document))
+        PageContent content = new PageContent(getTitle(url, document), getBody(url, document))
         return new CrawledPage(meta, content)
     }
 
     protected abstract boolean shouldParse(String url)
 
-    protected abstract Date getDate(Document doc)
+    protected abstract Date getDate(String url, Document doc)
 
-    protected abstract String getTitle(Document doc)
+    protected abstract String getTitle(String url, Document doc)
 
-    protected abstract String getBody(Document doc)
+    protected abstract String getBody(String url, Document doc)
 
-    protected abstract Set<String> getTags(Document doc)
+    protected abstract Set<String> getTags(String url, Document doc)
 
     protected abstract String getExternalId(String url)
 

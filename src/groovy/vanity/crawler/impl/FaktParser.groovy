@@ -17,7 +17,7 @@ class FaktParser extends AbstractParser {
     }
 
     @Override
-    protected Date getDate(final Document doc) {
+    protected Date getDate(final String url, final Document doc) {
         return doGetDate('span.datetime time', doc) ?: doGetDate('span.datetime', doc)
     }
 
@@ -27,18 +27,18 @@ class FaktParser extends AbstractParser {
     }
 
     @Override
-    protected String getTitle(final Document doc) {
+    protected String getTitle(final String url, final Document doc) {
         return doc.select('header h1')?.first()?.text()
     }
 
     @Override
-    protected String getBody(final Document doc) {
+    protected String getBody(final String url, final Document doc) {
         String lead = doc.select('p.lead')?.first()?.text()
-        return lead ?: getTitle(doc)
+        return lead ?: getTitle(url, doc)
     }
 
     @Override
-    protected Set<String> getTags(final Document doc) {
+    protected Set<String> getTags(final String url, final Document doc) {
         return doc.select('.tags a')?.collect({ it.text() }) as Set<String>
     }
 

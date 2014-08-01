@@ -24,23 +24,23 @@ class PlotekParser extends AbstractParser {
     }
 
     @Override
-    protected Date getDate(final Document doc) {
+    protected Date getDate(final String url, final Document doc) {
         String date = doc.select('#gazeta_article_date')?.first()?.text()
         return date ? Date.parse('dd.MM.yyyy HH:mm', date) : null
     }
 
     @Override
-    protected String getTitle(final Document doc) {
+    protected String getTitle(final String url, final Document doc) {
         return doc.select('#gazeta_article h1')?.first()?.text()
     }
 
     @Override
-    protected String getBody(final Document doc) {
+    protected String getBody(final String url, final Document doc) {
         return doc.select('div.cmsArtykulElem')?.first()?.text()
     }
 
     @Override
-    protected Set<String> getTags(final Document doc) {
+    protected Set<String> getTags(final String url, final Document doc) {
         return doc.select('#gazeta_article_tags li a').collect { it.text() } as Set<String>
     }
 

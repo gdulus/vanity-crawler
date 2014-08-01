@@ -1,6 +1,5 @@
 package vanity.crawler.spider
 
-import groovy.transform.ToString
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import vanity.article.ContentSource
