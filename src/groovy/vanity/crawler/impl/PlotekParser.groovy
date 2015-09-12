@@ -31,7 +31,7 @@ class PlotekParser extends AbstractParser {
 
     @Override
     protected String getTitle(final String url, final Document doc) {
-        return doc.select('#gazeta_article h1')?.first()?.text()
+        return doc.select('.holder_top h1')?.first()?.text()
     }
 
     @Override
