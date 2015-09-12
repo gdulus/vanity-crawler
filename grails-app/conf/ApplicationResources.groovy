@@ -9,5 +9,6 @@ modules = {
         dependsOn 'base'
         resource url: 'css/base.css'
         resource url: 'css/manage.css'
+        resource url: 'js/Chart.min.js'
     }
 }

@@ -66,5 +66,28 @@
         </tr>
     </g:each>
 </table>
+<canvas id="stats" style="width: 100%; height: 400px"></canvas>
+<v:contentSourceColorLegent/>
+<g:javascript>
+
+    var data = {
+        labels: [<g:each in="${stats.days}" var="day">'${day.format('dd-MM-YYYY')}',</g:each>],
+        datasets: [
+    <g:each in="${stats.values}" var="source">
+        {
+            label: "${source.key}",
+                    fillColor: "${v.contentSourceColor(target: source.key)}",
+                    strokeColor: "${v.contentSourceColor(target: source.key)}",
+                    highlightFill: "${v.contentSourceColor(target: source.key)}",
+                    highlightStroke: "${v.contentSourceColor(target: source.key)}",
+                    data: [<g:each in="${source.value}" var="count">${count},</g:each>]
+                },
+    </g:each>
+    ]
+};
+
+var ctx = document.getElementById("stats").getContext("2d");
+new Chart(ctx).Bar(data, {barShowStroke: false});
+</g:javascript>
 </body>
 </html>

@@ -19,3 +19,9 @@ body {
     margin-bottom: 5px;
     color: #ffffff;
 }
+
+.legend li {
+    padding-left: 20px;
+    font-weight: bold;
+    list-style: none;
+}

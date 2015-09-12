@@ -3,6 +3,7 @@ package vanity.crawler.spider
 import grails.plugin.springsecurity.annotation.Secured
 import vanity.article.ContentSource
 import vanity.article.ContentSourceService
+import vanity.crawler.stats.StatsService
 import vanity.user.Authority
 
 @Secured([Authority.ROLE_ADMIN])
@@ -12,11 +13,13 @@ class ManageController {
 
     ContentSourceService contentSourceService
 
+    StatsService statsService
+
     def index() {
         def crawlers = ContentSource.list(sort: 'target').collect {
             [source: it, status: crawlerExecutor.getStatus(it.target)]
         }
-        [crawlers: crawlers]
+        [crawlers: crawlers, stats: statsService.getCountPerDay()]
     }
 
     def startJob(final Long id) {
