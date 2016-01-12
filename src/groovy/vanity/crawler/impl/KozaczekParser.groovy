@@ -25,17 +25,17 @@ class KozaczekParser extends AbstractParser {
 
     @Override
     protected String getTitle(final String url, final Document doc) {
-        return doc.select('h1.header')?.first()?.text()
+        return removeNullCharacters(doc.select('h1.header')?.first()?.text())
     }
 
     @Override
     protected String getBody(final String url, final Document doc) {
-        return doc.select('.plotka_content')?.first()?.text()
+        return removeNullCharacters(doc.select('.plotka_content')?.first()?.text())
     }
 
     @Override
     protected Set<String> getTags(final String url, final Document doc) {
-        return doc.select('.tags a').collect { it.text() } as Set<String>
+        return doc.select('.tags a').collect { removeNullCharacters(it.text()) } as Set<String>
     }
 
     @Override
@@ -47,5 +47,9 @@ class KozaczekParser extends AbstractParser {
         }
 
         return (matcher[0] && matcher[0].last()?.isNumber() ? matcher[0].last() : StringUtils.EMPTY)
+    }
+
+    private String removeNullCharacters(final String string) {
+        string ? string.replaceAll("\u0000", '') : string
     }
 }
